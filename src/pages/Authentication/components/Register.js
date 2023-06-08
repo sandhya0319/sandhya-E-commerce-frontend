@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-const baseURL="http://localhost:5050";
+const baseURL = "http://localhost:5050";
 
 
 const schema = yup.object().shape({
@@ -19,26 +20,47 @@ const schema = yup.object().shape({
       'Invalid email format'
     ),
   gender: yup.string().required("Gender is required"),
-  mobile_number: yup.string().required("Mobile number is required").min(10).max(10),
+  mobile: yup.string().required("Mobile number is required").min(10).max(10),
   password: yup.string().required("Password is required").min(4).max(8)
 });
 
 
 const Register = () => {
 
+  const navigate = useNavigate();
+
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
-    //console.log(data)
-    axios
-    .post(`${baseURL}/users/adddata`, data)
-    .then((response) => {
-      //setPost(response.data);
-      console.log(response.data);
-    });
+    console.log(data, "dataa")
+    try {
+      axios.post(`${baseURL}/users/adddata`, { ...data, cart: { user_id: data.id } })
+        .then((res) => {
+          console.log(res.data, "------");
+          alert("Registration succesfully done..!")
+          navigate("/login")
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 409) {
+            alert("User already exists. Please login.");
+          } else {
+            console.log("An error occurred:", error);
+          }
+        });
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  useEffect(() => {
+    axios.get(`${baseURL}/users/displayusers`).then((response) => {
+      //console.log(response.data,"userss");
+    });
+  })
+
   return (
     <div>
       <div className="Auth-form-container">
@@ -78,42 +100,6 @@ const Register = () => {
               )}
             </div>
             <div className="form-group mt-3">
-              <label>Gender</label>
-              <div className="row">
-                <div className="col" >
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" {...register('gender')} />
-                    <label className="form-check-label" for="flexRadioDefault1">
-                      Male
-                    </label>
-                  </div>
-                </div>
-                <div className="col" >
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" {...register('gender')} />
-                    <label className="form-check-label" for="flexRadioDefault2">
-                      Female
-                    </label>
-                  </div>
-                </div>
-                {errors.gender && (
-                  <p className="text-danger">{errors.gender.message}</p>
-                )}
-              </div>
-            </div>
-            <div className="form-group mt-3">
-              <label>Mobile number</label>
-              <input
-                type="number"
-                className="form-control mt-1"
-                placeholder="e.g Jane Doe"
-                {...register('mobile_number')}
-              />
-              {errors.mobile_number && (
-                <p className="text-danger">{errors.mobile_number.message}</p>
-              )}
-            </div>
-            <div className="form-group mt-3">
               <label>Password</label>
               <input
                 type="password"
@@ -125,6 +111,52 @@ const Register = () => {
                 <p className="text-danger">{errors.password.message}</p>
               )}
             </div>
+            <div className="form-group mt-3">
+              <label>Mobile number</label>
+              <input
+                type="number"
+                className="form-control mt-1"
+                placeholder="e.g 9900990099"
+                {...register('mobile')}
+              />
+              {errors.mobile && (
+                <p className="text-danger">{errors.mobile.message}</p>
+              )}
+            </div>
+            <div className="form-group mt-3">
+              <label>Gender</label>
+              <div className="row">
+                <div className="col" >
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" value="male" name="flexRadioDefault" id="flexRadioDefault1" {...register('gender')} />
+                    <label className="form-check-label" for="flexRadioDefault1">
+                      Male
+                    </label>
+                  </div>
+                </div>
+                <div className="col" >
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" value="female" name="flexRadioDefault" id="flexRadioDefault2" {...register('gender')} />
+                    <label className="form-check-label" for="flexRadioDefault2">
+                      Female
+                    </label>
+                  </div>
+                </div>
+                <div className="col" >
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" value="other" name="flexRadioDefault" id="flexRadioDefault2" {...register('gender')} />
+                    <label className="form-check-label" for="flexRadioDefault2">
+                      Other
+                    </label>
+                  </div>
+                </div>
+                {errors.gender && (
+                  <p className="text-danger">{errors.gender.message}</p>
+                )}
+              </div>
+            </div>
+
+
             <div className="d-grid gap-2 mt-3">
               <button type="submit" className="btn btn-primary">
                 Submit

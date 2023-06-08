@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
+import axios from 'axios'
+
+const baseURL = "http://localhost:5050";
 
 const schema = yup.object().shape({
   email: yup
@@ -23,7 +26,29 @@ const Login = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data)
+    try {
+      axios.post(`${baseURL}/users/login`,data ).then((res) => {
+        if (!res.data.auth) {
+          //setLoginStatus(false);
+       } else {
+          console.log(res.data,"dataa");
+          localStorage.setItem("login_user_data",JSON.stringify(res.data))
+          //setLoginStatus (true);
+          alert("Login succesfully..!")
+       }
+        console.log(res.data, "------");
+      }).catch((error) => {
+        if (error.response && error.response.status === 401) {
+          alert("User not available.");
+        } else if (error.response && error.response.status === 500) {
+          console.log("Internal Server Error:", error);
+        } else {
+          console.log("An error occurred:", error);
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div>
@@ -33,7 +58,7 @@ const Login = () => {
             <h3 className="Auth-form-title">Sign In</h3>
             <div className="text-center">
               Already registered?{" "}
-              <Link to="/" className="text-decoration-none">
+              <Link to="/register" className="text-decoration-none">
                 <span className="link-primary">
                   Sign Up
                 </span>
