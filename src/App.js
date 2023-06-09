@@ -18,7 +18,7 @@ function App() {
             <Route path="/login" element={<Login />} />
 
           <Route element={<ProtectedRoutes />}>
-            <Route path="/addtocart" element={<CartProduct />} />
+            <Route path="/cartproduct" element={<CartProduct />} />
           </Route>
         </Routes>
         {/* <Register>

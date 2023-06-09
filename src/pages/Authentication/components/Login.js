@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const baseURL = "http://localhost:5050";
 
@@ -21,6 +22,8 @@ const schema = yup.object().shape({
 
 const Login = () => {
 
+  const navigate = useNavigate();
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
@@ -32,9 +35,10 @@ const Login = () => {
           //setLoginStatus(false);
        } else {
           console.log(res.data,"dataa");
-          localStorage.setItem("login_user_data",JSON.stringify(res.data))
+          localStorage.setItem("token_data",JSON.stringify(res.data))
           //setLoginStatus (true);
           alert("Login succesfully..!")
+          navigate('/');
        }
         console.log(res.data, "------");
       }).catch((error) => {

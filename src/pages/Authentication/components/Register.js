@@ -57,9 +57,9 @@ const Register = () => {
 
   useEffect(() => {
     axios.get(`${baseURL}/users/displayusers`).then((response) => {
-      //console.log(response.data,"userss");
+      console.log(response.data,"userss");
     });
-  })
+  },[]);
 
   return (
     <div>
