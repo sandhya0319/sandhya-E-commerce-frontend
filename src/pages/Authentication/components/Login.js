@@ -37,6 +37,7 @@ const Login = () => {
           console.log(res.data,"dataa");
           localStorage.setItem("token_data",JSON.stringify(res.data))
           //setLoginStatus (true);
+          console.log(res.data,"----")
           alert("Login succesfully..!")
           navigate('/');
        }

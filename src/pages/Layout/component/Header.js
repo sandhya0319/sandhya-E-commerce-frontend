@@ -13,13 +13,7 @@ const Header = () => {
         localStorage.removeItem('token_data')
         navigate('/login');
     }
-    // const [searchText, setSearch] = useState("");
-    // const handleSearch = (e) => {
-    //     setSearch(e.target.value);
-    // }
-    // const getSearchData = (searchdata) => {
-    //     return Object.values(searchdata).some(val => (((typeof val == "string") || (typeof val == "number")) && val.toString().toLowerCase().includes(searchText.toLowerCase())));
-    // }
+   
 
     return (
         <>
@@ -64,7 +58,7 @@ const Header = () => {
                                 </li>
                             </ul>
                         }
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" style={{width:"30%"}} />
+                        {/* <input class="form-control mr-sm-2" type="search" placeholder="Search" style={{width:"30%"}} /> */}
                     </div>
                     
                 </div>

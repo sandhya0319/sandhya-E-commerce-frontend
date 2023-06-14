@@ -9,13 +9,30 @@ const CartProduct = () => {
 
   const [cartData, setCartData] = useState([]);
 
+  //const headers = { 'Authorization': 'x-access-token' };
   const user_id = JSON.parse(localStorage.getItem("token_data"));
-
+ 
+  const token=user_id.token;
+  //console.log(token,"ssss");
   useEffect(() => {
+
+    // axios({
+    //   method: "get",
+    //   url: `${baseURL}/cart/displaycart/${user_id.id}`,
+    //   headers:{
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // });
+    
     axios
-      .get(`${baseURL}/cart/displaycart/${user_id.id}`)
+      .get(`${baseURL}/cart/displaycart/${user_id.id}`,
+      {headers:{
+        Authorization: `Bearer ${token}`}
+        //Authorization: localStorage.getItem("token_data")}
+      })
       .then((response) => {
         setCartData(response.data);
+        //console.log(headers,"heaadersdata")
       })
       .catch((error) => {
         console.error("Error:", error);

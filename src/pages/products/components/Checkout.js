@@ -29,16 +29,11 @@ const Checkout = () => {
   //console.log(checkoutData,"=======");
   const user_id = JSON.parse(localStorage.getItem("token_data"));
 
-  
-
   useEffect(() => {
     axios
       .get(`${baseURL}/checkout/checkoutDetail/${user_id.id}`)
       .then((response) => {
-     
-            setCheckoutData(response.data[0]);
-        
-        
+        setCheckoutData(response.data[0]);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -55,14 +50,30 @@ const Checkout = () => {
       });
   }, []);
 
-//console.log(checkoutData,"data=======");
+  console.log(checkoutData, "data=======");
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      street: checkoutData?.street || "",
+      city: checkoutData?.city || "",
+      state: checkoutData?.state || "",
+      country: checkoutData?.country || "",
+      pincode: checkoutData?.pincode || "",
+    },
   });
+
+  useEffect(() => {
+    setValue("street", checkoutData?.street || "");
+    setValue("city", checkoutData?.city || "");
+    setValue("state", checkoutData?.state || "");
+    setValue("country", checkoutData?.country || "");
+    setValue("pincode", checkoutData?.pincode || "");
+  }, [checkoutData, setValue]);
 
   const calculateTotalAmount = (cartItems) => {
     const total = cartItems.reduce((sum, cartItem) => {
@@ -145,7 +156,6 @@ const Checkout = () => {
                 className="form-control mt-1"
                 placeholder="e.g Jane Doe"
                 {...register("street")}
-                defaultValue={checkoutData?.street || ''}
               />
               {errors.street && (
                 <p className="text-danger">{errors.street.message}</p>
@@ -158,7 +168,6 @@ const Checkout = () => {
                 className="form-control mt-1"
                 placeholder="e.g Jane Doe"
                 {...register("city")}
-                defaultValue={checkoutData?.city || ''}
               />
               {errors.city && (
                 <p className="text-danger">{errors.city.message}</p>
@@ -171,7 +180,6 @@ const Checkout = () => {
                 className="form-control mt-1"
                 placeholder="e.g Jane Doe"
                 {...register("state")}
-                defaultValue={checkoutData?.state || ''}
               />
               {errors.state && (
                 <p className="text-danger">{errors.state.message}</p>
@@ -184,7 +192,6 @@ const Checkout = () => {
                 className="form-control mt-1"
                 placeholder="e.g Jane Doe"
                 {...register("country")}
-                defaultValue={checkoutData?.country || ''}
               />
               {errors.country && (
                 <p className="text-danger">{errors.country.message}</p>
@@ -198,7 +205,6 @@ const Checkout = () => {
                 className="form-control mt-1"
                 placeholder="e.g Jane Doe"
                 {...register("pincode")}
-                defaultValue={checkoutData?.pincode || ''}
               />
               {errors.pincode && (
                 <p className="text-danger">{errors.pincode.message}</p>
