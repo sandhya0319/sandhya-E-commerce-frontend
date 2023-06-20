@@ -28,7 +28,7 @@ const Checkout = () => {
   //console.log(cartData,"cartdataaaaa");
   //console.log(checkoutData,"=======");
   const user_id = JSON.parse(localStorage.getItem("token_data"));
-
+  const token=user_id.token;
   useEffect(() => {
     axios
       .get(`${baseURL}/checkout/checkoutDetail/${user_id.id}`)
@@ -40,7 +40,10 @@ const Checkout = () => {
       });
 
     axios
-      .get(`${baseURL}/cart/displaycart/${user_id.id}`)
+      .get(`${baseURL}/cart/displaycart/${user_id.id}`,
+      {headers:{
+        Authorization: `Bearer ${token}`}
+      })
       .then((response) => {
         if (response.data.length == 0) return navigate("/");
         setCartData(response.data);

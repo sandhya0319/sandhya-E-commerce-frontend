@@ -40,6 +40,9 @@ const Header = () => {
                             <li class="nav-item" data-bs-dismiss="offcanvas">
                                 <Link to="/myordersummary" className="nav-link text-md-white">My orders<ImProfile></ImProfile></Link>
                             </li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas">
+                                <Link to="/addproduct" className="nav-link text-md-white">Add Products</Link>
+                            </li>
                         </ul>
                         
                         {!checkLogin ?

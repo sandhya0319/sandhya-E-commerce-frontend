@@ -9,8 +9,7 @@ const Home = () => {
   const [productData, setProductData] = useState([]);
   const [category,setCategory]=useState([]);
 
-  const user_id = localStorage.getItem("token_data")
-    ? JSON.parse(localStorage.getItem("token_data"))
+  const user_id = localStorage.getItem("token_data")? JSON.parse(localStorage.getItem("token_data"))
     : {};
 
   useEffect(() => {
@@ -145,7 +144,7 @@ const Home = () => {
         style={{ width: "30%" }}
       />
 
-        <div className="form-group row">  
+        {/* <div className="form-group row">  
                     <select
                         name="category"
                         className="form-control">
@@ -157,7 +156,7 @@ const Home = () => {
                         ))}
                         <option>All</option>
                     </select>
-            </div>
+            </div> */}
 
 
       <div className="row g-2">

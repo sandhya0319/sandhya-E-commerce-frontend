@@ -153,6 +153,9 @@ const CartProduct = () => {
                     <p className="card-text text-truncate">
                       {cartItem.product.description}
                     </p>
+                    <p className="card-text text-truncate">
+                      {cartItem.product.price}
+                    </p>
                     <p className="card-text">Status: {cartItem.product.product_status}</p>
                   </div>
                   <div className="card-footer">

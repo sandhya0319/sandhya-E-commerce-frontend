@@ -10,11 +10,11 @@ import { ProtectedRoutes, UnprotectedRoutes } from "./pages/services/routes";
 import CartProduct from "./pages/products/components/CartProduct";
 import Checkout from "./pages/products/components/Checkout";
 import Myorder from "./pages/profile/components/Myorder";
+import AddProduct from "./pages/products/components/AddProduct";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-
         <Routes>
           <Route element={<UnprotectedRoutes />}>
             <Route path="/register" element={<Register />} />
@@ -26,6 +26,7 @@ function App() {
               <Route path="/cartproduct" element={<CartProduct />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/myordersummary" element={< Myorder/>} />
+              <Route path="/addproduct" element={< AddProduct/>} />
             </Route>
           </Route>
         </Routes>
@@ -37,8 +38,6 @@ function App() {
 function MainLayout() {
   const location = useLocation();
   const { pathname } = location;
-
-  // Check if the current route is either "/register" or "/login"
   const isRegisterOrLogin = pathname === "/register" || pathname === "/login";
 
   return (
@@ -49,6 +48,7 @@ function MainLayout() {
           <Route path="/cartproduct" element={<CartProduct />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/myordersummary" element={< Myorder/>} />
+          <Route path="/addproduct" element={< AddProduct/>} />
         </Route>
       </Routes>
     </Layout>
